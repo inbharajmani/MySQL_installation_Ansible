@@ -1,6 +1,14 @@
 - name: MySQL installation playbook for Ubuntu 22.04
   hosts: all
   become: yes
+
+  #Secret password variables
+  vars_prompt:
+    - name: mysql_root_password
+      prompt: Enter MySQL root password
+    - name: mysql_user_password
+      prompt: Enter MySQL user password
+
   tasks:
   # Installation
     - name: MySQL Installation 
@@ -21,8 +29,9 @@
     - name: Sets root password
       mysql_user:
         name: root
-        password: Password@321
+        password: "{{ mysql_root_password }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
+      no_log: True
 
     - name: Removes all anonymous user accounts
       mysql_user:
@@ -30,34 +39,39 @@
         host_all: yes
         state: absent
         login_user: root
-        login_password: Password@321
+        login_password: "{{ mysql_root_password }}"
+      no_log: True
 
     - name: Drops MySQL test database
       mysql_db:
         name: test
         state: absent
         login_user: root
-        login_password: Password@321
-        
+        login_password: "{{ mysql_root_password }}"
+      no_log: True
+
   # User Creation
     - name: MySQL User creation - Sammy user created with All privileges
       mysql_user:
         name: sammy
         host: localhost
-        password: Sammy@12345
+        password: "{{ mysql_user_password }}"
         priv: '*.*:ALL'
         state: present
         login_user: root
-        login_password: Password@321
+        login_password: "{{ mysql_root_password }}"
+      no_log: True
      
     - name: Flush priveleges
-      command: mysql -u root -e 'FLUSH PRIVILEGES' -pPassword@321
-  
-  # Testing MySQL
-    - name: Check Mysql is working as expected with user sammy
-      command: mysqladmin -pSammy@12345 -u sammy version
-      register: find_output
+      command: mysql -u root -e 'FLUSH PRIVILEGES' -p{{ mysql_root_password }}
+      no_log: True
 
-    - name: Debugmode to get the output of previous task
+  # Testing MySQL
+    - name: Check Mysql Users
+      command: mysqladmin -p{{ mysql_user_password }} -u sammy version
+      register: find_output
+      no_log: True
+
+    - name: Debugmode to get the output of previous module
       debug:
        var: find_output.stdout_lines
