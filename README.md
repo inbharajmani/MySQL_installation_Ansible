@@ -23,7 +23,7 @@ Reference: https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-
 >ansible-playbook -i inventory Change_MySQL_datadir.yml --extra-vars "old_dir=/var/lib/mysql new_dir=/tmp"
 
 While running this playbook --extra-vars should be specified.
-1) old_dir = Current Datadir (Can be found using "select @@Datadir")
-2) new_dir = New Datadir
+- old_dir = Current Datadir (Can be found using "select @@Datadir")
+- new_dir = New Datadir
 
 <img width="686" alt="image" src="https://user-images.githubusercontent.com/98776326/205133926-7023ce67-61c6-42d4-bf04-2e0aa7614e37.png">
