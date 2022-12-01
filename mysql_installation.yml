@@ -1,0 +1,63 @@
+- name: MySQL installation playbook for Ubuntu 22.04
+  hosts: all
+  become: yes
+  tasks:
+  # Installation
+    - name: MySQL Installation 
+      apt: 
+       name: 
+           - mysql-server
+           - python3-mysqldb
+       state: present 
+       update_cache: yes
+
+    - name: Starts and Enables MySQL service
+      service:
+       name: mysql
+       state: started
+       enabled: yes
+
+  # Configuration
+    - name: Sets root password
+      mysql_user:
+        name: root
+        password: Password@321
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Removes all anonymous user accounts
+      mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
+        login_user: root
+        login_password: Password@321
+
+    - name: Drops MySQL test database
+      mysql_db:
+        name: test
+        state: absent
+        login_user: root
+        login_password: Password@321
+        
+  # User Creation
+    - name: MySQL User creation - Sammy user created with All privileges
+      mysql_user:
+        name: sammy
+        host: localhost
+        password: Sammy@12345
+        priv: '*.*:ALL'
+        state: present
+        login_user: root
+        login_password: Password@321
+     
+    - name: Flush priveleges
+      command: mysql -u root -e 'FLUSH PRIVILEGES' -pPassword@321
+  
+  # Testing MySQL
+    - name: Check Mysql Users
+      command: mysqladmin -pSammy@12345 -u sammy version
+      register: find_output
+
+    - name: Debugmode to get the output of previous module
+      debug:
+       var: find_output
