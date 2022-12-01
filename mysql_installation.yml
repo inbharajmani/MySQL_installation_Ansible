@@ -2,7 +2,7 @@
   hosts: all
   become: yes
 
-  #Secret password variables
+  #Get user inputs for password variables
   vars_prompt:
     - name: mysql_root_password
       prompt: Enter MySQL root password
