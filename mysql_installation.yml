@@ -60,4 +60,4 @@
 
     - name: Debugmode to get the output of previous module
       debug:
-       var: find_output
+       var: find_output.stdout_lines

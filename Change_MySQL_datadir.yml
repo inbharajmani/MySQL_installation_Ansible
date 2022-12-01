@@ -1,0 +1,68 @@
+- name: Moves MySQL data directory to a new location 
+  hosts: all
+  become: yes 
+  tasks:
+  # Moving the MySQL data directory
+   - name: Stop MySQL service
+     service:
+       name: mysql
+       state: stopped
+
+   - name: Rsync to copy MySQL data to new_directory
+     command: rsync -a {{ old_dir }} {{ new_dir }}
+   
+   - name: Take a backup of old_directory
+     command: mv {{ old_dir }} {{ old_dir }}.bak
+
+  # Pointing datadir to new location
+   - name: Change datadir in mysqld.conf file  
+     lineinfile:  
+       dest: /etc/mysql/mysql.conf.d/mysqld.cnf 
+       line: datadir={{ new_dir }}/mysql
+       state: present  
+       create: yes  
+
+  # Configuring Apparmor
+   - name: Change datadir in /etc/apparmor.d/tunables/alias file  
+     lineinfile:  
+       dest: /etc/apparmor.d/tunables/alias 
+       line: alias {{ old_dir }}/ -> {{ new_dir }}/mysql/,
+       state: present  
+       create: yes
+
+   - name: Restart Apparmor service
+     service:
+       name: apparmor
+       state: restarted
+       enabled: yes
+
+  # Restarting MySQL
+   - name: Creates directory
+     file:
+       path: "{{ old_dir }}/mysql"
+       state: directory
+   
+   - name: Restart MySQL service
+     service:
+       name: mysql
+       state: restarted
+       enabled: yes
+
+   - name: Deletes MySQL old_directory
+     file:
+       path: "{{ old_dir }}.bak"
+       state: absent
+    
+   - name: Restart MySQL service again
+     service:
+       name: mysql
+       state: restarted
+       enabled: yes
+
+   - name: Check current/updated MySQl data directory
+     command: mysql -u sammy -pSammy@12345 -e "select @@Datadir"
+     register: find_output
+    
+   - name: Debugmode to get the output of previous module
+     debug:
+       var: find_output.stdout_lines
