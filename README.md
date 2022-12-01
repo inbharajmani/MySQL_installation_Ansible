@@ -12,8 +12,7 @@ Prerequisites:
 <img width="828" alt="image" src="https://user-images.githubusercontent.com/98776326/205132564-c8d15d99-66b0-4913-a4b1-74b1bb167828.png">
 
 2) Setting New Data directory for MySQL
-Reference: https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-data-directory-to
--a-new-location-on-ubuntu-20-04
+Reference: https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-data-directory-to-a-new-location-on-ubuntu-20-04
 
 Prerequisites:
 - Ansible Master node (Ubuntu 22.04) with Ansible 2.10.8 installed
