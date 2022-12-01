@@ -3,7 +3,7 @@
 ## 1) MySQL initial setup and configuration
 Reference: https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04
 
-### Prerequisites:
+`Prerequisites:`
  - Ansible Master node (Ubuntu 22.04) with Ansible 2.10.8 installed
  - Ansible slave/remote nodes (Ubuntu 22.04) should have passwordless access from Ansible master
  
@@ -14,7 +14,7 @@ Reference: https://www.digitalocean.com/community/tutorials/how-to-install-mysql
 ## 2) Setting New Data directory for MySQL
 Reference: https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-data-directory-to-a-new-location-on-ubuntu-20-04
 
-### Prerequisites:
+`Prerequisites:`
 - Ansible Master node (Ubuntu 22.04) with Ansible 2.10.8 installed
 - Ansible slave/remote nodes (Ubuntu 22.04) should have passwordless access from Ansible master
 - Ansible slave nodes should have MySQL installed and Running
