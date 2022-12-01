@@ -54,10 +54,10 @@
       command: mysql -u root -e 'FLUSH PRIVILEGES' -pPassword@321
   
   # Testing MySQL
-    - name: Check Mysql Users
+    - name: Check Mysql is working as expected with user sammy
       command: mysqladmin -pSammy@12345 -u sammy version
       register: find_output
 
-    - name: Debugmode to get the output of previous module
+    - name: Debugmode to get the output of previous task
       debug:
        var: find_output
