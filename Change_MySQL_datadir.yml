@@ -1,6 +1,14 @@
 - name: Moves MySQL data directory to a new location 
   hosts: all
   become: yes 
+
+  #get user credentials as Secret variables
+  vars_prompt:
+   - name: mysql_user_name
+     prompt: Enter MySQL username
+   - name: mysql_user_password
+     prompt: Enter MySQL user password
+
   tasks:
   # Moving the MySQL data directory
    - name: Stop MySQL service
@@ -60,8 +68,9 @@
        enabled: yes
 
    - name: Check current/updated MySQl data directory
-     command: mysql -u sammy -pSammy@12345 -e "select @@Datadir"
+     command: mysql -u {{ mysql_user_name }} -p{{ mysql_user_password }} -e "select @@Datadir"
      register: find_output
+     no_log: True
     
    - name: Debugmode to get the output of previous module
      debug:
