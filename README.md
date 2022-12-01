@@ -19,6 +19,7 @@ Prerequisites:
 - Ansible Master node (Ubuntu 22.04) with Ansible 2.10.8 installed
 - Ansible slave/remote nodes (Ubuntu 22.04) should have passwordless access from Ansible master
 - Ansible slave nodes should have MySQL installed and Running
+- A MySQL username and password is required with all priveleges
 
 ##ansible-playbook -i inventory Change_MySQL_datadir.yml --extra-vars "old_dir=/var/lib/mysql new_dir=/tmp"
 
