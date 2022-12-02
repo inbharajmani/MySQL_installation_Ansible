@@ -9,6 +9,8 @@ Reference: https://www.digitalocean.com/community/tutorials/how-to-install-mysql
  
 >ansible-playbook -i inventory mysql_installation.yml
 
+Final Result:
+
 <img width="828" alt="image" src="https://user-images.githubusercontent.com/98776326/205132564-c8d15d99-66b0-4913-a4b1-74b1bb167828.png">
 
 ---
@@ -27,5 +29,7 @@ Reference: https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-
 While running this playbook --extra-vars should be specified.
 - old_dir = Current Datadir (Can be found using "select @@Datadir")
 - new_dir = New Datadir
+
+Final Result:
 
 <img width="686" alt="image" src="https://user-images.githubusercontent.com/98776326/205133926-7023ce67-61c6-42d4-bf04-2e0aa7614e37.png">
