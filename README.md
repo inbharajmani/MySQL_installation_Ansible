@@ -1,4 +1,4 @@
-# MySQL installation using Ansible and Changes Datadir to new location
+# MySQL installation using Ansible and Change Datadir to new location
 
 ## 1. MySQL initial setup and configuration
 Reference: https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04
